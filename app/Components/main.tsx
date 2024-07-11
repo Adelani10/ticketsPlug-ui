@@ -21,6 +21,7 @@ export default function Main() {
   const [events, setEvents] = useState<any[] | null>(null);
   const [ticketsPlug, setTicketsPlug] = useState<any>();
   const [toggleSeat, setToggleSeat] = useState<boolean>(false);
+  const [currEvent, setCurrEvent] = useState<any>(null);
   const address: contractAddressesInterface = contractAddresses;
   const ABI: any = abi;
 
@@ -34,10 +35,13 @@ export default function Main() {
     }
   }, [isWeb3Enabled]);
 
+  console.log(currEvent)
+
   const loadBlockChainData = async () => {
     const eventsArr: any[] = [];
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contract = new ethers.Contract(ca!, ABI, provider);
+    const signer = await provider.getSigner();
+    const contract = new ethers.Contract(ca!, ABI, signer);
     setTicketsPlug(contract);
 
     if (ticketsPlug) {
@@ -54,18 +58,28 @@ export default function Main() {
     }
   };
 
-  console.log(events);
-
   return (
     <div className="h-full">
       <div className="md:w-[75%] w-full mx-auto h-full p-3 md:space-y-4 space-y-3">
-        <Event toggleSeat={toggleSeat} setToggleSeat={setToggleSeat} />
+        {events?.map((event) => {
+          return (
+            <Event
+              key={event.id}
+              setToggleSeat={setToggleSeat}
+              event={event}
+              setCurrEvent={setCurrEvent}
+            />
+          );
+        })}
       </div>
-      
+
       {toggleSeat && (
         <div>
           <div className="bg-black opacity-75 h-full w-full z-0 absolute top-0 left-0 right-0 bottom-0"></div>
-          <SeatPage setToggleSeat={setToggleSeat} />
+          <SeatPage
+            setToggleSeat={setToggleSeat}
+            currEvent={currEvent}
+          />
         </div>
       )}
     </div>
