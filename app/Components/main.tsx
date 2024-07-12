@@ -61,28 +61,42 @@ export default function Main() {
 
   return (
     <div className="h-full">
-      <div className="md:w-[75%] w-full mx-auto h-full p-3 md:space-y-4 space-y-3">
-        {events?.map((event) => {
-          return (
-            <Event
-              key={event.id}
-              setToggleSeat={setToggleSeat}
-              event={event}
-              setCurrEvent={setCurrEvent}
-            />
-          );
-        })}
-      </div>
+      {account ? (
+        <div className="h-full">
+          <div className="md:w-[75%] w-full mx-auto h-full p-3 md:space-y-4 space-y-3">
+            {events?.map((event) => {
+              return (
+                <Event
+                  key={event.id}
+                  setToggleSeat={setToggleSeat}
+                  event={event}
+                  setCurrEvent={setCurrEvent}
+                />
+              );
+            })}
+          </div>
 
-      {toggleSeat && (
-        <div>
-          <div className="bg-black opacity-75 h-full w-full z-0 absolute top-0 left-0 right-0 bottom-0"></div>
-          <SeatPage
-            setToggleSeat={setToggleSeat}
-            currEvent={currEvent}
-            ticketsPlug={ticketsPlug}
-            signer={signer}
-          />
+          {toggleSeat && (
+            <div>
+              <div className="bg-black opacity-75 h-full w-full z-0 absolute top-0 left-0 right-0 bottom-0"></div>
+              <SeatPage
+                setToggleSeat={setToggleSeat}
+                currEvent={currEvent}
+                ticketsPlug={ticketsPlug}
+                signer={signer}
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex text-sky-700 justify-center items-center h-screen">
+          <svg
+            className="animate-spin h-5 w-5 mr-3 border-sky-400 border-b rounded-full ..."
+            viewBox="0 0 24 24"
+          >
+            ...
+          </svg>
+          Connect Wallet...
         </div>
       )}
     </div>
