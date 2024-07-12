@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import Seat from "./seat";
+import { MdClose } from "react-icons/md";
 
-export default function SeatPage({ setToggleSeat, currEvent }: any) {
+export default function SeatPage({
+  setToggleSeat,
+  currEvent,
+  ticketsPlug,
+  signer,
+}: any) {
   const [seatArray, setSeatArray] = useState<any[]>([]);
   useEffect(() => {
     if (currEvent) {
@@ -17,7 +23,6 @@ export default function SeatPage({ setToggleSeat, currEvent }: any) {
     }
     setSeatArray(arr);
   };
-  console.log(seatArray);
 
   return (
     <div className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b to-cyan-300 z-30 p-3 from-sky-50 flex flex-col gap-y-16 w-[85%] md:w-1/2">
@@ -27,7 +32,7 @@ export default function SeatPage({ setToggleSeat, currEvent }: any) {
           onClick={() => setToggleSeat(false)}
           className=" text-red-600 font-semibold"
         >
-          x
+          <MdClose />
         </button>
       </div>
       <div
@@ -36,7 +41,15 @@ export default function SeatPage({ setToggleSeat, currEvent }: any) {
         } gap-y-2`}
       >
         {seatArray.map((seat, index) => {
-          return <Seat key={index} seat={seat} />;
+          return (
+            <Seat
+              key={index}
+              seat={seat}
+              ticketsPlug={ticketsPlug}
+              signer={signer}
+              currEvent={currEvent}
+            />
+          );
         })}
       </div>
     </div>

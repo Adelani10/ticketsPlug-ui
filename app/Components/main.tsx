@@ -22,6 +22,7 @@ export default function Main() {
   const [ticketsPlug, setTicketsPlug] = useState<any>();
   const [toggleSeat, setToggleSeat] = useState<boolean>(false);
   const [currEvent, setCurrEvent] = useState<any>(null);
+  const [signer, setSigner] = useState<any>(null);
   const address: contractAddressesInterface = contractAddresses;
   const ABI: any = abi;
 
@@ -35,14 +36,14 @@ export default function Main() {
     }
   }, [isWeb3Enabled]);
 
-  console.log(currEvent)
-
   const loadBlockChainData = async () => {
     const eventsArr: any[] = [];
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
+    const realSigner = await provider.getSigner();
+
     const contract = new ethers.Contract(ca!, ABI, signer);
     setTicketsPlug(contract);
+    setSigner(realSigner);
 
     if (ticketsPlug) {
       const totalEvents = await ticketsPlug.totalEvents();
@@ -79,6 +80,8 @@ export default function Main() {
           <SeatPage
             setToggleSeat={setToggleSeat}
             currEvent={currEvent}
+            ticketsPlug={ticketsPlug}
+            signer={signer}
           />
         </div>
       )}

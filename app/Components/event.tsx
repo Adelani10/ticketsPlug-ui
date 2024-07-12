@@ -5,20 +5,18 @@ import { ethers } from "ethers";
 interface propsTypes {
   setToggleSeat: any;
   event: any;
-  setCurrEvent: any
+  setCurrEvent: any;
 }
 
 export default function Event({
   setToggleSeat,
   event,
-  setCurrEvent
+  setCurrEvent,
 }: propsTypes) {
-
-
   const handleClick = () => {
-    setToggleSeat(true)
-    setCurrEvent(event)
-  }
+    setToggleSeat(true);
+    setCurrEvent(event);
+  };
 
   return (
     <div className="border-b-2 border-zinc-400 py-2">
