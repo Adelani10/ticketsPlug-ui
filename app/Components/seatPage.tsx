@@ -24,9 +24,13 @@ export default function SeatPage({
   });
   const [seatArray, setSeatArray] = useState<any[]>([]);
   useEffect(() => {
+    let intervalId: any;
     if (currEvent) {
       displaySeat();
+      intervalId = setInterval(setCountDown, 1000);
     }
+
+    return () => clearInterval(intervalId);
   }, [currEvent]);
 
   //   {new Date(Date.now()).toLocaleDateString(undefined, {
@@ -77,18 +81,19 @@ export default function SeatPage({
     });
   };
 
-  console.log(currEvent.date);
-
   const displaySeat = () => {
     const arr: number[] = [];
     for (let i = 0; i < currEvent.maxTickets; i++) {
       arr.push(i + 1);
     }
     setSeatArray(arr);
-
-    setCountDown();
-    setInterval(setCountDown, 1000);
   };
+
+  const allNonZero =
+    date.days !== 0 &&
+    date.hours !== 0 &&
+    date.minutes !== 0 &&
+    date.seconds !== 0;
 
   return (
     <div className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b to-cyan-300 z-30 p-3 from-sky-50 flex flex-col gap-y-16 w-[85%] md:w-1/2">
@@ -102,10 +107,7 @@ export default function SeatPage({
         </button>
       </div>
 
-      {date.days === 0 &&
-      date.hours === 0 &&
-      date.minutes === 0 &&
-      date.seconds === 0 ? (
+      {!allNonZero ? (
         <div>Event already happened!</div>
       ) : (
         <div>
@@ -131,31 +133,33 @@ export default function SeatPage({
         </div>
       )}
 
-      {date.days > 0 &&
-        date.hours > 0 &&
-        date.minutes > 0 &&
-        date.seconds > 0 && (
-          <div>
-            <p className="italic font-semibold">First 5 seats are frontrow...😎</p>
-            <div
-              className={`grid ${
-                seatArray.length >= 50 ? "grid-cols-8" : "grid-cols-4"
-              } gap-y-2`}
-            >
-              {seatArray.map((seat, index) => {
-                return (
-                  <Seat
-                    key={index}
-                    seat={seat}
-                    ticketsPlug={ticketsPlug}
-                    signer={signer}
-                    currEvent={currEvent}
-                  />
-                );
-              })}
-            </div>
+      {allNonZero ? (
+        <div>
+          <p className="italic font-semibold">
+            First 5 seats are frontrow...😎
+          </p>
+
+          <div
+            className={`grid ${
+              seatArray.length >= 50 ? "grid-cols-8" : "grid-cols-4"
+            } gap-y-2`}
+          >
+            {seatArray.map((seat, index) => {
+              return (
+                <Seat
+                  key={index}
+                  seat={seat}
+                  ticketsPlug={ticketsPlug}
+                  signer={signer}
+                  currEvent={currEvent}
+                />
+              );
+            })}
           </div>
-        )}
+        </div>
+      ) : (
+        <div>DONE</div>
+      )}
     </div>
   );
 }

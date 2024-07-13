@@ -23,10 +23,9 @@ export default function Seat({ seat, ticketsPlug, signer, currEvent }: any) {
     }
   }, [currEvent]);
 
-  console.log(takenSeats);
   return (
     <button
-      disabled={takenSeats.some(num => num.eq(seat))}
+      disabled={takenSeats.some((num) => num.eq(seat))}
       onClick={handleClick}
       className="h-8 w-8 hover:bg-cyan-300 disabled:bg-cyan-900 bg-cyan-600 text-white p-2 rounded-full flex items-center justify-center"
     >
