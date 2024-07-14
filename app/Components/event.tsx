@@ -13,10 +13,12 @@ export default function Event({
   event,
   setCurrEvent,
 }: propsTypes) {
+
   const handleClick = () => {
     setToggleSeat(true);
     setCurrEvent(event);
   };
+
 
   return (
     <div className="border-b-2 border-zinc-400 py-2">

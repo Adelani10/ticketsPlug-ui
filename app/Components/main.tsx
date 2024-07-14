@@ -19,7 +19,7 @@ interface contractAddressesItemInterface {
 export default function Main() {
   const { chainId, isWeb3Enabled, account } = useMoralis();
   const [events, setEvents] = useState<any[] | null>(null);
-  const [ticketsPlug, setTicketsPlug] = useState<any>();
+  const [ticketsPlug, setTicketsPlug] = useState<any>(null);
   const [toggleSeat, setToggleSeat] = useState<boolean>(false);
   const [currEvent, setCurrEvent] = useState<any>(null);
   const [signer, setSigner] = useState<any>(null);
@@ -38,10 +38,10 @@ export default function Main() {
 
   const loadBlockChainData = async () => {
     const eventsArr: any[] = [];
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider =await new ethers.providers.Web3Provider(window.ethereum);
     const realSigner = await provider.getSigner();
 
-    const contract = new ethers.Contract(ca!, ABI, signer);
+    const contract =await new ethers.Contract(ca!, ABI, provider);
     setTicketsPlug(contract);
     setSigner(realSigner);
 
