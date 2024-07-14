@@ -1,29 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useMoralis } from "react-moralis";
-import Web3Modal from "web3modal";
-import { ethers } from "ethers";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-const providerOptions = {};
 const links: string[] = ["concerts", "sports", "arts & theater", "more"];
 
 export default function Header() {
-  const { account } = useMoralis();
-
-  const connectWallet = async () => {
-    try {
-      let web3Modal = new Web3Modal({
-        cacheProvider: false,
-        providerOptions,
-      });
-      const web3ModalInstance = await web3Modal.connect();
-      const web3ModalProvider = new ethers.providers.Web3Provider(
-        web3ModalInstance
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { account, chainId } = useMoralis();
 
   return (
     <div className="bg-gradient-to-br flex flex-col justify-between to-cyan-300 px-3 from-sky-500 py-4 md:h-64 h-44">
@@ -55,7 +38,7 @@ export default function Header() {
         </div>
 
         <div>
-          <button onClick={connectWallet}>Connect Wallet</button>
+          <ConnectButton />
         </div>
       </div>
 

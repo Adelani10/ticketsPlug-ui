@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
-import { MoralisProvider } from "../constants/imports";
+import {
+  MoralisProvider,
+  WagmiProvider,
+  config,
+  QueryClientProvider,
+  RainbowKitProvider,
+  queryClient,
+} from "../constants/imports";
 
 const inter = Raleway({ subsets: ["latin"] });
 
@@ -18,7 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MoralisProvider initializeOnMount={false}>{children}</MoralisProvider>
+        <MoralisProvider initializeOnMount={false}>
+          <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+              <RainbowKitProvider>{children}</RainbowKitProvider>
+            </QueryClientProvider>
+          </WagmiProvider>
+        </MoralisProvider>
       </body>
     </html>
   );
