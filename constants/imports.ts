@@ -1,7 +1,5 @@
 "use client";
 
-import { MoralisProvider } from "react-moralis";
-
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
@@ -18,7 +16,6 @@ const config = getDefaultConfig({
 const queryClient = new QueryClient();
 
 export {
-  MoralisProvider,
   WagmiProvider,
   config,
   QueryClientProvider,

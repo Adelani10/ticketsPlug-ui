@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useMoralis } from "react-moralis";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 const links: string[] = ["concerts", "sports", "arts & theater", "more"];
 
 export default function Header() {
-  const { account, chainId } = useMoralis();
+
+  const {address} = useAccount()
 
   return (
     <div className="bg-gradient-to-br flex flex-col justify-between to-cyan-300 px-3 from-sky-500 py-4 md:h-64 h-44">
@@ -14,7 +15,7 @@ export default function Header() {
         <div className="flex items-center gap-x-3">
           <h1 className="text-2xl font-bold">ticketsPlug</h1>
 
-          {account && (
+          {address && (
             <input
               type="text"
               name="events"
@@ -24,7 +25,7 @@ export default function Header() {
             />
           )}
 
-          {account && (
+          {address && (
             <div className="lg:flex text-md hidden md:gap-x-5">
               {links.map((link, index) => {
                 return (
@@ -38,7 +39,11 @@ export default function Header() {
         </div>
 
         <div>
-          <ConnectButton />
+          <ConnectButton
+            accountStatus="address"
+            chainStatus="none"
+            showBalance={false}
+          />
         </div>
       </div>
 

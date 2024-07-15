@@ -7,6 +7,7 @@ import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import Event from "./event";
 import SeatPage from "./seatPage";
+import { useAccount } from "wagmi";
 
 interface contractAddressesInterface {
   [key: string]: contractAddressesItemInterface;
@@ -17,31 +18,33 @@ interface contractAddressesItemInterface {
 }
 
 export default function Main() {
-  const { chainId, isWeb3Enabled, account } = useMoralis();
+  const { chainId, isConnected, isDisconnected, address } = useAccount();
   const [events, setEvents] = useState<any[] | null>(null);
   const [ticketsPlug, setTicketsPlug] = useState<any>(null);
   const [toggleSeat, setToggleSeat] = useState<boolean>(false);
   const [currEvent, setCurrEvent] = useState<any>(null);
   const [signer, setSigner] = useState<any>(null);
-  const address: contractAddressesInterface = contractAddresses;
+  const addy: contractAddressesInterface = contractAddresses;
   const ABI: any = abi;
 
-  const ca = chainId
-    ? address[parseInt(chainId).toString()]["ticketsPlug"][0]
-    : null;
+  console.log(chainId);
+
+  const ca = chainId ? addy[chainId.toString()]["ticketsPlug"][0] : null;
 
   useEffect(() => {
-    if (isWeb3Enabled) {
+    if (isConnected) {
       loadBlockChainData();
     }
-  }, [isWeb3Enabled]);
+  }, [isConnected]);
+
+  console.log(isConnected)
 
   const loadBlockChainData = async () => {
     const eventsArr: any[] = [];
-    const provider =await new ethers.providers.Web3Provider(window.ethereum);
+    const provider = await new ethers.providers.Web3Provider(window.ethereum);
     const realSigner = await provider.getSigner();
 
-    const contract =await new ethers.Contract(ca!, ABI, provider);
+    const contract = await new ethers.Contract(ca!, ABI, provider);
     setTicketsPlug(contract);
     setSigner(realSigner);
 
@@ -61,7 +64,7 @@ export default function Main() {
 
   return (
     <div className="h-full">
-      {account ? (
+      {address ? (
         <div className="h-full">
           <div className="md:w-[75%] w-full mx-auto h-full p-3 md:space-y-4 space-y-3">
             {events?.map((event) => {

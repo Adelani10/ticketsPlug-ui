@@ -33,13 +33,6 @@ export default function SeatPage({
     return () => clearInterval(intervalId);
   }, [currEvent]);
 
-  //   {new Date(Date.now()).toLocaleDateString(undefined, {
-  //     weekday: "long",
-  //     month: "long",
-  //     day: "numeric",
-  //     year: "numeric",
-  //   })}
-
   const setCountDown = async () => {
     let eventDate;
     let oneSec = 1000;
