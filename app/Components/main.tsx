@@ -3,7 +3,6 @@
 import { ethers } from "ethers";
 import abi from "../../constants/abi.json";
 import contractAddresses from "../../constants/contractAddresses.json";
-import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import Event from "./event";
 import SeatPage from "./seatPage";
@@ -18,7 +17,7 @@ interface contractAddressesItemInterface {
 }
 
 export default function Main() {
-  const { chainId, isConnected, isDisconnected, address } = useAccount();
+  const { chainId, isConnected, address } = useAccount();
   const [events, setEvents] = useState<any[] | null>(null);
   const [ticketsPlug, setTicketsPlug] = useState<any>(null);
   const [toggleSeat, setToggleSeat] = useState<boolean>(false);
