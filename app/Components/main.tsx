@@ -27,8 +27,6 @@ export default function Main() {
   const addy: contractAddressesInterface = contractAddresses;
   const ABI: any = abi;
 
-  console.log(chainId);
-
   const ca = chainId ? addy[chainId.toString()]["ticketsPlug"][0] : null;
 
   useEffect(() => {
@@ -37,7 +35,6 @@ export default function Main() {
     }
   }, [isConnected]);
 
-  console.log(isConnected)
 
   const loadBlockChainData = async () => {
     const eventsArr: any[] = [];
@@ -45,20 +42,20 @@ export default function Main() {
     const realSigner = await provider.getSigner();
 
     const contract = await new ethers.Contract(ca!, ABI, provider);
-    setTicketsPlug(contract);
     setSigner(realSigner);
 
-    if (ticketsPlug) {
-      const totalEvents = await ticketsPlug.totalEvents();
+    try {
+      const totalEvents = await contract.totalEvents();
 
       for (let i = 1; i <= totalEvents; i++) {
-        const event = await ticketsPlug.getEvent(i);
+        const event = await contract.getEvent(i);
         eventsArr.push(event);
       }
 
+      setTicketsPlug(contract);
       setEvents(eventsArr);
-    } else {
-      console.log("ticketsPlug not set..");
+    } catch(error) {
+      console.error("Error checking wallet connection:", error);
     }
   };
 

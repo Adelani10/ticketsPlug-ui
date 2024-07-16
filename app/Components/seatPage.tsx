@@ -89,7 +89,7 @@ export default function SeatPage({
     date.seconds !== 0;
 
   return (
-    <div className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b to-cyan-300 z-30 p-3 from-sky-50 flex flex-col gap-y-16 w-[85%] md:w-1/2">
+    <div className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b to-cyan-300 z-30 p-3 from-sky-50 text-black flex flex-col gap-y-16 w-[85%] md:w-1/2">
       <div className="flex justify-between items-center font-bold text-2xl">
         <h1 className="">{currEvent.name}</h1>
         <button
